@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
      */
     [SerializeField]
     private float axisThreshhold = 0.2f;
+    private bool shiftpressed;
 
 	/* 
      * functions that return values for the wasd/arrow buttons
@@ -32,6 +33,16 @@ public class InputManager : MonoBehaviour
 	{
         return Input.GetAxis(Strings.Movement.HORIZONTAL) > axisThreshhold;
 	}
+    public bool Shift()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
 
     /* 
      * functions that return values for the mouse position

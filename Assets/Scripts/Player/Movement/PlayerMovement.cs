@@ -6,14 +6,16 @@ public class PlayerMovement : MonoBehaviour
 {
     private InputManager inputManager;
     [SerializeField]
-    private float movementSpeed = 5;
+    private float inputSpeed = 5;
+    private float movementSpeed;
 
 
     void Start(){
-		//check if the inputmanager is present. If it's not, add it.
-		//I was too lazy to add it in the unity editor, and this looks pretty nice
+        Cursor.lockState = CursorLockMode.Locked;
+        //check if the inputmanager is present. If it's not, add it.
+        //I was too lazy to add it in the unity editor, and this looks pretty nice
         //copy paste from camerarotation
-		if (!(inputManager = this.GetComponent<InputManager>()))
+        if (!(inputManager = this.GetComponent<InputManager>()))
 		{
 			inputManager = this.gameObject.AddComponent<InputManager>();
 		}
@@ -21,6 +23,12 @@ public class PlayerMovement : MonoBehaviour
 
 	void Update () {
         Vector3 movement = new Vector3();
+        movementSpeed = inputSpeed;
+
+        if (inputManager.Shift())
+        {
+            movementSpeed = inputSpeed*2;
+        }
         if (inputManager.Up())
         {
             movement += this.transform.forward;
@@ -39,5 +47,11 @@ public class PlayerMovement : MonoBehaviour
 		}
         movement.Normalize();
         this.transform.position += (movement * Time.deltaTime * movementSpeed);
-	}
+
+        if (Input.GetKeyDown("escape"))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
 }
